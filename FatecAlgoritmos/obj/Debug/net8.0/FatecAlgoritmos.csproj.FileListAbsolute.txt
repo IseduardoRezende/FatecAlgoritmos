@@ -1,0 +1,14 @@
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\bin\Debug\net8.0\FatecAlgoritmos.exe
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\bin\Debug\net8.0\FatecAlgoritmos.deps.json
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\bin\Debug\net8.0\FatecAlgoritmos.runtimeconfig.json
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\bin\Debug\net8.0\FatecAlgoritmos.dll
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\bin\Debug\net8.0\FatecAlgoritmos.pdb
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\obj\Debug\net8.0\FatecAlgoritmos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\obj\Debug\net8.0\FatecAlgoritmos.AssemblyInfoInputs.cache
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\obj\Debug\net8.0\FatecAlgoritmos.AssemblyInfo.cs
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\obj\Debug\net8.0\FatecAlgoritmos.csproj.CoreCompileInputs.cache
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\obj\Debug\net8.0\FatecAlgoritmos.dll
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\obj\Debug\net8.0\refint\FatecAlgoritmos.dll
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\obj\Debug\net8.0\FatecAlgoritmos.pdb
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\obj\Debug\net8.0\FatecAlgoritmos.genruntimeconfig.cache
+C:\Users\Fabiola\Desktop\CSharp\FatecAlgoritmos\FatecAlgoritmos\obj\Debug\net8.0\ref\FatecAlgoritmos.dll
