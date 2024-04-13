@@ -4,20 +4,20 @@
     {
         private protected class No
         {            
-            private TValor _value = default!;
+            private TValor _valor = default!;
 
             public TValor Valor
             {
                 get
                 {
-                    return _value;
+                    return _valor;
                 }
                 set
                 {
                     if (value is null)
                         throw new ArgumentNullException(nameof(Valor), "Valor nulo é inválido");
 
-                    _value = value;
+                    _valor = value;
                 }
             }
 
