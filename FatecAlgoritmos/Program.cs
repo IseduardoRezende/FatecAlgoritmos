@@ -1,32 +1,35 @@
 ﻿using FatecAlgoritmos;
 
-IListaLigada<Student> listaLigada2 = new ListaLigada<Student>();
-listaLigada2.Adicionar(new Student("Edu", 18));
-listaLigada2.Adicionar(new Student("Livia", 19));
-listaLigada2.Adicionar(new Student("João", 17), TipoAdicao.Inicio);
+IListaLigada<float> listaLigada = new ListaLigada<float>();
 
-var juca = new Student("Juca", 17);
-listaLigada2.Adicionar(juca, TipoAdicao.Inicio);
+listaLigada.Adicionar(1, TipoAdicao.Inicio);
+listaLigada.Adicionar(2, TipoAdicao.Fim);
+listaLigada.Adicionar(3, TipoAdicao.Inicio);
+listaLigada.Adicionar(4, TipoAdicao.Fim);
 
-listaLigada2.Listar();
+listaLigada.Listar();
 
-listaLigada2.Remover(juca);
+listaLigada.Remover(1);
 
-listaLigada2.Listar();
+listaLigada.Listar();
 
-class Student
-{
-    public Student(string nome, int idade)
-    {
-        this.nome = nome;
-        this.idade = idade;
-    }
+listaLigada.Adicionar(4, 3.5f, TipoPosicao.Antes);
+listaLigada.Adicionar(3, 1, TipoPosicao.Depois);
+listaLigada.Adicionar(3, 1.5f, TipoPosicao.Antes);
+listaLigada.Adicionar(7, TipoAdicao.Fim);
+listaLigada.Adicionar(9, TipoAdicao.Inicio);
+listaLigada.Adicionar(7, -2, TipoPosicao.Depois);
 
-    public string nome;
-    public int idade;
+listaLigada.Listar();
 
-    public override string ToString()
-    {
-        return $"Nome: {nome} | Idade: {idade}";
-    }
-}
+listaLigada.Remover(-2);
+listaLigada.Remover(9);
+listaLigada.Remover(3);
+listaLigada.Remover(4);
+
+listaLigada.Listar();
+
+listaLigada.Limpar();
+
+listaLigada.Listar();
+    

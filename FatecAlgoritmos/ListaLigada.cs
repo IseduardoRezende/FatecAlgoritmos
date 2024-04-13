@@ -1,21 +1,21 @@
 ﻿namespace FatecAlgoritmos
-{    
-    public class ListaLigada<TValor> : IListaLigada<TValor>
+{
+    public class ListaLigada<TValor> : IListaLigada<TValor> 
     {
         private protected class No
-        {
+        {            
             private TValor _value = default!;
 
             public TValor Valor
             {
-                get 
-                { 
-                    return _value; 
+                get
+                {
+                    return _value;
                 }
                 set
                 {
-                    if (value is null)                    
-                        throw new ArgumentNullException(nameof(Valor), "Valor nulo é inválido");                    
+                    if (value is null)
+                        throw new ArgumentNullException(nameof(Valor), "Valor nulo é inválido");
 
                     _value = value;
                 }
@@ -48,14 +48,17 @@
                 if (anterior == null)
                     return null;
 
-                return Anterior = anterior;
+                Anterior = anterior;
+                Anterior.Proximo = this;
+
+                return Anterior;
             }
         }
 
         private No? Inicio { get; set; }
 
         private No? Fim { get; set; }
-        
+
         public int Tamanho { get; private set; }
 
         public void Listar()
@@ -79,11 +82,52 @@
             Tamanho = default;
         }
 
-        public void Adicionar(TValor valor, TipoAdicao tipoAdicao = TipoAdicao.Fim)
+        public void Adicionar(TValor valorExistente, TValor novoValor, TipoPosicao tipoPosicao)
+        {
+            if (!InicioValido())
+                throw new ArgumentException("Valor inexistente", nameof(valorExistente));
+
+            switch (tipoPosicao)
+            {
+                case TipoPosicao.Antes: AdicionarAntes(valorExistente, novoValor); break;
+                case TipoPosicao.Depois: AdicionarDepois(valorExistente, novoValor); break;
+                default: throw new ArgumentException("Enum inválido", nameof(tipoPosicao));
+            }
+
+            IncrementarTamanhoLista();
+            AtualizarInicio();
+        }
+
+        private void AdicionarAntes(TValor valorExistente, TValor novoValor)
+        {           
+            var possuiValor = PossuiValor(valorExistente, out No? inicio);
+
+            if (!possuiValor)
+                throw new ArgumentException("Valor inexistente", nameof(valorExistente));
+
+            var novoNo = new No(novoValor, proximo: inicio, anterior: inicio!.Anterior);
+            Inicio = novoNo;
+        }
+
+        private void AdicionarDepois(TValor valorExistente, TValor novoValor)
+        {            
+            var possuiValor = PossuiValor(valorExistente, out No? inicio);
+
+            if (!possuiValor)
+                throw new ArgumentException("Valor inexistente", nameof(valorExistente));
+
+            var novoNo = new No(novoValor, proximo: inicio!.Proximo, anterior: inicio);
+            Inicio = novoNo;
+            
+            AtualizarFim();
+        }
+
+        public void Adicionar(TValor valor, TipoAdicao tipoAdicao)
         {
             if (!InicioValido())
             {
                 InicializarLista(valor);
+                IncrementarTamanhoLista();
                 return;
             }
 
@@ -93,29 +137,28 @@
                 case TipoAdicao.Fim: AdicionarFim(valor); break;
                 default: throw new ArgumentException("Enum inválido", nameof(tipoAdicao));
             }
+
+            IncrementarTamanhoLista();
         }
 
-        public void Remover(TValor valor)
+        private void InicializarLista(TValor valor)
         {
-            if (!InicioValido())
-                return;
+            var novoNo = new No(valor, proximo: null, anterior: null);
 
-            while (Inicio is not null && !Equals(Inicio.Valor, valor))
-                Inicio = Inicio.Proximo;
+            Inicio = novoNo;
+            Fim = novoNo;
+        }
 
-            if (UltimoNo(Inicio))
-            {
-                RemoverUltimoNo(Inicio);
-                return;
-            }
+        private void AdicionarInicio(TValor valor)
+        {
+            var novoNo = new No(valor, proximo: Inicio, anterior: null);
+            Inicio = novoNo;
+        }
 
-            if (PrimeiroNo(Inicio))
-            {
-                RemoverPrimeiroNo(Inicio);
-                return;
-            }
-
-            RemoverNo(Inicio);
+        private void AdicionarFim(TValor valor)
+        {
+            var novoNo = new No(valor, proximo: null, anterior: Fim);
+            Fim = novoNo;
         }
 
         private bool PrimeiroNo(No? no)
@@ -134,16 +177,16 @@
             return no.Proximo is null;
         }
 
-        private void RemoverUltimoNo(No? noRemocao)
+        public void Remover(TValor valor)
         {
-            if (noRemocao is null || !InicioValido())
-                return;
+            var possuiValor = PossuiValor(valor, out No? inicio);
 
-            Fim = noRemocao.Anterior;
-            Fim!.Proximo = null;
+            if (!possuiValor)
+                throw new ArgumentException("Valor inexistente", nameof(valor));
 
+            RemoverNo(inicio);
             DecrementarTamanhoLista();
-            ReajustarOrdemPeloFim();
+            AtualizarInicio();
         }
 
         private void RemoverNo(No? noRemocao)
@@ -151,77 +194,88 @@
             if (noRemocao is null || !InicioValido())
                 return;
 
+            if (PrimeiroNo(noRemocao))
+            {
+                RemoverPrimeiroNo(noRemocao);
+                return;
+            }
+
+            if (UltimoNo(noRemocao))
+            {
+                RemoverUltimoNo(noRemocao);
+                return;
+            }
+
             Inicio = noRemocao.Anterior;
             Inicio!.Proximo = noRemocao.Proximo;
-
-            DecrementarTamanhoLista();
-            ReajustarOrdemPeloInicio();
+            Inicio!.Proximo!.Anterior = Inicio;
         }
 
         private void RemoverPrimeiroNo(No? noRemocao)
         {
-            if (noRemocao is null || !InicioValido())
+            if (noRemocao is null || !InicioValido() || !PrimeiroNo(noRemocao))
                 return;
 
             Inicio = noRemocao.Proximo;
             Inicio!.Anterior = null;
-
-            DecrementarTamanhoLista();
-            ReajustarOrdemPeloInicio();
         }
 
-        private void ReajustarOrdemPeloInicio()
+        private void RemoverUltimoNo(No? noRemocao)
         {
-            if (!InicioValido())
+            if (noRemocao is null || !InicioValido() || !UltimoNo(noRemocao))
                 return;
 
-            while (Inicio!.Anterior is not null)            
-                Inicio = Inicio.Anterior;            
-        }
-
-        private void ReajustarOrdemPeloFim()
-        {
-            if (!InicioValido())
-                return;
-
+            Fim = noRemocao.Anterior;
+            Fim!.Proximo = null;
             Inicio = Fim;
+        }               
 
-            while (Inicio!.Anterior is not null)            
-                Inicio = Inicio.Anterior;            
+        private void AtualizarInicio()
+        {
+            if (!InicioValido())
+                return;
+
+            while (Inicio!.Anterior is not null)
+                Inicio = Inicio.Anterior;
         }
 
-        private void AdicionarInicio(TValor valor)
+        private void AtualizarFim()
         {
-            var novoNo = new No(valor, proximo: Inicio, anterior: null);
-            Inicio = novoNo;
+            if (!InicioValido())
+                return;
 
-            IncrementarTamanhoLista();
+            AtualizarInicio();
+
+            var no = Inicio;
+
+            while (no!.Proximo is not null)
+                no = no.Proximo;
+
+            Fim = no;
         }
 
-        private void AdicionarFim(TValor valor)
+        private bool PossuiValor(TValor valor, out No? inicio)
         {
-            var novoNo = new No(valor, proximo: null, anterior: Fim);
+            if (!InicioValido())
+                throw new ArgumentException("Valor inexistente", nameof(valor));
 
-            Fim!.Proximo = novoNo;
-            Fim = novoNo;
+            inicio = Inicio;
+            var no = Inicio;
 
-            IncrementarTamanhoLista();
-        }
+            while (no is not null && !Equals(no.Valor, valor))
+                no = no.Proximo;
 
-        private void InicializarLista(TValor valor)
-        {
-            var novoNo = new No(valor, proximo: null, anterior: null);
+            if (no is null)
+                return false;
 
-            Inicio = novoNo;
-            Fim = novoNo;
-
-            IncrementarTamanhoLista();
+            inicio = no;
+            return true;
         }
 
         private bool InicioValido() => Inicio is not null;
 
         private void IncrementarTamanhoLista() => Tamanho++;
 
-        private void DecrementarTamanhoLista() => Tamanho--;
+        private void DecrementarTamanhoLista() => Tamanho--;        
     }
 }
