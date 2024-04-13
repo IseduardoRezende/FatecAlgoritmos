@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FatecAlgoritmos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c6650460c5cafc725fa2032fcd98dbaf3f4662a")]
 [assembly: System.Reflection.AssemblyProductAttribute("FatecAlgoritmos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FatecAlgoritmos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
